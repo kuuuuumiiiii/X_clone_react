@@ -1,5 +1,81 @@
+
 import { useState } from 'react';
 import { registerUser } from '../api/auth';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f2f2f2;
+`;
+
+const Title = styled.h1`
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+`;
+
+const SignIn = styled.h1`
+`
+
+const Form = styled.form`
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+`;
+
+const FormGroup = styled.div`
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Label = styled.label`
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #555;
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+  
+  &:focus {
+    border-color: #007BFF;
+    outline: none;
+  }
+`;
+
+const Button = styled.button`
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const Message = styled.p`
+  margin-top: 15px;
+  font-size: 0.9rem;
+  color: ${props => (props.error ? 'red' : 'green')};
+`;
 
 const Register = () => {
   const [email, setEmail] = useState('');
@@ -26,40 +102,44 @@ const Register = () => {
   };
 
   return (
-    <>
-      <h1>Xクローンアプリ</h1>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label>Email:</label>
-          <input
+    <Container>
+      <Title>Xクローン</Title>
+      <SignIn>Sign in to X</SignIn>
+      <Form onSubmit={handleRegister}>
+        <FormGroup>
+          <Label>Email:</Label>
+          <Input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+            placeholder="メールアドレスを入力"
           />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
+        </FormGroup>
+        <FormGroup>
+          <Label>Password:</Label>
+          <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            placeholder="パスワードを入力"
           />
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input
+        </FormGroup>
+        <FormGroup>
+          <Label>Confirm Password:</Label>
+          <Input
             type="password"
             value={passwordConfirmation}
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             required
+            placeholder="確認用パスワードを入力"
           />
-        </div>
-        <button type="submit">登録する</button>
-        {message && <p>{message}</p>}
-      </form>
-    </>
+        </FormGroup>
+        <Button type="submit">登録する</Button>
+        {message && <Message error={message.includes('エラー')}>{message}</Message>}
+      </Form>
+    </Container>
   );
 };
 
