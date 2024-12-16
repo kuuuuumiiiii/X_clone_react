@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { registerUser } from '../api/auth';
 import styled from 'styled-components';
@@ -18,8 +17,40 @@ const Title = styled.h1`
   margin-bottom: 20px;
 `;
 
-const SignIn = styled.h1`
-`
+const SocialLoginContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+`;
+
+const SocialButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  font-size: 1rem;
+  border-color: #dcdcdc ;
+  border-radius: 50px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &.google {
+    background-color: #fff;
+    color: #000;
+  }
+
+  &.apple {
+    background-color: #fff;
+    color: #000;
+  }
+`;
 
 const Form = styled.form`
   background: white;
@@ -58,11 +89,11 @@ const Input = styled.input`
 const Button = styled.button`
   width: 100%;
   padding: 10px;
-  background-color: #007BFF;
+  background-color: #000;
   color: white;
   font-size: 1rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 50px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 
@@ -103,8 +134,11 @@ const Register = () => {
 
   return (
     <Container>
-      <Title>Xクローン</Title>
-      <SignIn>Sign in to X</SignIn>
+      <Title>Xクローンアプリ</Title>
+      <SocialLoginContainer>
+        <SocialButton className="google">Googleでログイン</SocialButton>
+        <SocialButton className="apple">Appleでログイン</SocialButton>
+      </SocialLoginContainer>
       <Form onSubmit={handleRegister}>
         <FormGroup>
           <Label>Email:</Label>
