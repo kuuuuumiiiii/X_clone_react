@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { registerUser } from '../api/auth';
 import styled from 'styled-components';
 
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -108,19 +109,31 @@ const Message = styled.p`
   color: ${props => (props.error ? 'red' : 'green')};
 `;
 
-const Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+const Registration = () => {
+  // Stateを1つのオブジェクトにまとめる
+  const [user, setUser] = useState({
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+  });
   const [message, setMessage] = useState('');
+
+  // onChangeメソッドの作成
+  const onChangeUser = (e) => {
+    const { name, value } = e.target; // name属性と値を取得
+    setUser((prevState) => ({
+      ...prevState,
+      [name]: value, // name属性をキーとして動的に値を更新
+    }));
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
       await registerUser({
-        email: email,
-        password: password,
-        password_confirmation: passwordConfirmation
+        email: user.email,
+        password: user.password,
+        password_confirmation: user.passwordConfirmation,
       });
       setMessage('登録成功！ログインしてください。');
     } catch (err) {
@@ -144,8 +157,9 @@ const Register = () => {
           <Label>Email:</Label>
           <Input
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            name="email"
+            value={user.email}
+            onChange={onChangeUser}
             required
             placeholder="メールアドレスを入力"
           />
@@ -154,8 +168,9 @@ const Register = () => {
           <Label>Password:</Label>
           <Input
             type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            name="password" 
+            value={user.password}
+            onChange={onChangeUser}
             required
             placeholder="パスワードを入力"
           />
@@ -164,8 +179,9 @@ const Register = () => {
           <Label>Confirm Password:</Label>
           <Input
             type="password"
-            value={passwordConfirmation}
-            onChange={(e) => setPasswordConfirmation(e.target.value)}
+            name="passwordConfirmation"
+            value={user.passwordConfirmation}
+            onChange={onChangeUser}
             required
             placeholder="確認用パスワードを入力"
           />
@@ -177,4 +193,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Registration;
